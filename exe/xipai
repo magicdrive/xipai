@@ -1,0 +1,9 @@
+#! /usr/bin/env ruby
+
+require 'thor'
+require File.expand_path("../lib/xipai/cli", File.dirname(__FILE__))
+
+ENV['THOR_SILENCE_DEPRECATION'] = "1"
+
+Xipai::CLI.start(ARGV)
+
