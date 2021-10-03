@@ -1,13 +1,12 @@
+# frozen_string_literal: true
+#
+require File.expand_path("../xipai", File.dirname(__FILE__))
 
-
-require File.expand_path("../xipai/members", File.dirname(__FILE__))
-require File.expand_path("../xipai/hashcode", File.dirname(__FILE__))
-
-module Xipai::Lottery
+module Xipai::Core
 
   class << self
-    def apply(words, hashcode, yamlfilepath)
-      hashcode = Xipai::Hashcode.generate_or_existing(hashcode)
+    def scrumble!(words, hashcode, yamlfilepath)
+      hashcode = Xipai::Hashcode.new_or_existing(hashcode)
 
       seed = words.map {|item|
         item.bytes.reduce(:*)
@@ -25,9 +24,7 @@ module Xipai::Lottery
         order: shuffled
       }
     end
-
   end
-
 
 end
 

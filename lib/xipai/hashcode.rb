@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "digest/sha2"
 require "time"
 require "securerandom"
@@ -5,6 +7,7 @@ require "securerandom"
 
 class Xipai::Hashcode
   class << self
+
     def random_hashcode()
       digit_seed = "#{self.name.object_id}-#{$$}-#{Time.now.to_i}-#{SecureRandom.hex(16)}-#{SecureRandom.hex(16)}}"
       _hashcode_ = Digest::SHA256.hexdigest(digit_seed)[0 .. 16]

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "xipai/version"
-
-module Xipai
-  class Error < StandardError; end
-  # Your code goes here...
+Dir.glob(File.expand_path("xipai/*.rb", File.dirname(__FILE__))).each do |mod_name|
+  require_relative "#{mod_name}"
 end
+
+__END__
+

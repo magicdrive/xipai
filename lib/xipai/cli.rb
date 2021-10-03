@@ -1,21 +1,86 @@
 
+
 require 'thor'
 require File.expand_path("../xipai", File.dirname(__FILE__))
-require File.expand_path("../xipai/lottery", File.dirname(__FILE__))
-class xipai::CLI < Thor
 
-  desc "jimei", "`lottery the turn` tool"
-  option :"word1", aliases: "-w1", type: :string, required: true
-  option :"word2", aliases: "-w2", type: :string, required: true
-  option :"word3", aliases: "-w3", type: :string, required: true
-  option :"hashcode", aliases: "-c", type: :string
-  option :"yaml", aliases: "-y", type: :string, required: true
-  def jimei()
-    words = [options[:word1], options[:word2], options[:word3]]
-    hashcode = options[:hashcode]
-    yamlfilepath = options[:yaml]
-    result = Xipai::Lottery.apply(words, hashcode, yamlfilepath)
-    puts result
+module Xipai
+  class CLI < Thor
+
+    default_command :help
+
+    desc "version", "Show xipai version"
+    def version
+      puts Xipai::VERSION
+    end
+
+    desc "replay", "replay shuffling with replay-yaml"
+    option :"replay-yaml", aliases: "-c", type: :string, desc: "xipai replay config defined yaml file."
+    def replay
+
+    end
+
+    desc "sinble", "reproducible based on seeds or random shuffling"
+    option :"key-word", aliases: "-w", type: :string, desc: "Comma-separated seed string"
+    option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
+    option :"no-hashcode",  aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization"
+    option :"items", aliases: "-a", type: :string, desc: "Items to be shuffled. (comma-separated)"
+    option :"replay-output", aliases: "-o", type: :string, desc: ""
+    def single()
+      xipai(:single, options)
+      puts result
+    end
+
+    desc "team", "Reproducible based on seeds or random shuffling"
+    option :"members", aliases: "-m", type: :integer, desc: "Number of team-members"
+    option :"key-word", aliases: "-w", type: :string, desc: "Comma-separated seed string"
+    option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
+    option :"no-hashcode",  aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization"
+    option :"items", aliases: "-a", type: :string, desc: "Items to be shuffled. (comma-separated)"
+    option :"yaml", aliases: "-y", type: :string, desc: "xipai option defined yaml file."
+    option :"config-output", aliases: "-o", type: :string, desc: ""
+    def team
+      xipai(:team, options)
+      puts result
+    end
+
+    desc "lottry", "Reproducible based on seeds or random shuffling, then extruct lottery winner."
+    option :"winners", aliases: "-m", type: :integer, desc: "Number of winners"
+    option :"key-word", aliases: "-w", type: :string, desc: "Comma-separated seed string"
+    option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
+    option :"no-hashcode",  aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization"
+    option :"items", aliases: "-a", type: :string, desc: "Items to be shuffled. (comma-separated)"
+    option :"yaml", aliases: "-y", type: :string, desc: "xipai option defined yaml file."
+    option :"config-output", aliases: "-o", type: :string, desc: ""
+    def lottery
+      xipai(:lottery, options)
+      puts result
+
+    end
+
+    desc "pair", "Reproducible based on seeds or random shuffling, then pairing key-items and value-items."
+    option :"winners", aliases: "-m", type: :integer, desc: "Number of winners"
+    option :"key-word", aliases: "-w", type: :string, desc: "Comma-separated seed string"
+    option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
+    option :"no-hashcode",  aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization"
+    option :"key-items", aliases: "-k", type: :string, desc: "Items to be shuffled. (comma-separated)"
+    option :"value-items", aliases: "-v", type: :string, desc: "Items to be shuffled. (comma-separated)"
+    option :"config-output", aliases: "-o", type: :string, desc: ""
+    def pair
+      xipai(:pair)
+      puts result
+
+    end
+
+    private
+    def xipai_from_config_file(yaml)
+
+    end
+
+    def xipai(options)
+      words = options[:"key-word"].tap {|me|break me.split(",").map(&:strip) unless me.nil? }
+      hashcode = options[:hashcode]
+      result = Xipai::Core.scrumble!(words, hashcode, yamlfilepath)
+    end
+
   end
-
 end
