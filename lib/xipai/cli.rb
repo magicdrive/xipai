@@ -14,7 +14,7 @@ module Xipai
     end
 
     desc "replay", "replay shuffling with replay-yaml"
-    option :"replay-yaml", aliases: "-c", type: :string, desc: "xipai replay config defined yaml file."
+    option :"yaml", aliases: "-c", type: :string, desc: "xipai replay config defined yaml file."
     def replay
 
     end

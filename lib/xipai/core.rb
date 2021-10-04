@@ -5,7 +5,7 @@ require File.expand_path("../xipai", File.dirname(__FILE__))
 module Xipai::Core
 
   class << self
-    def scrumble!(words, hashcode, yamlfilepath)
+    def scrumble!(words, hashcode, items)
       hashcode = Xipai::Hashcode.new_or_existing(hashcode)
 
       seed = words.map {|item|
