@@ -24,6 +24,7 @@ module Xipai
     option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
     option :"no-hashcode",  aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization"
     option :"items", aliases: "-a", type: :string, desc: "Items to be shuffled. (comma-separated)"
+    option :"pretty", aliases: "-p", type: :string, desc: "Pretty print output."
     option :"replay-output", aliases: "-o", type: :string, desc: ""
     def single()
       xipai(:single, options)
@@ -36,7 +37,7 @@ module Xipai
     option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
     option :"no-hashcode",  aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization"
     option :"items", aliases: "-a", type: :string, desc: "Items to be shuffled. (comma-separated)"
-    option :"yaml", aliases: "-y", type: :string, desc: "xipai option defined yaml file."
+    option :"pretty", aliases: "-p", type: :string, desc: "Pretty print output."
     option :"config-output", aliases: "-o", type: :string, desc: ""
     def team
       xipai(:team, options)
@@ -49,7 +50,7 @@ module Xipai
     option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
     option :"no-hashcode",  aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization"
     option :"items", aliases: "-a", type: :string, desc: "Items to be shuffled. (comma-separated)"
-    option :"yaml", aliases: "-y", type: :string, desc: "xipai option defined yaml file."
+    option :"pretty", aliases: "-p", type: :string, desc: "Pretty print output."
     option :"config-output", aliases: "-o", type: :string, desc: ""
     def lottery
       xipai(:lottery, options)
@@ -58,12 +59,12 @@ module Xipai
     end
 
     desc "pair", "Reproducible based on seeds or random shuffling, then pairing key-items and value-items."
-    option :"winners", aliases: "-m", type: :integer, desc: "Number of winners"
     option :"key-word", aliases: "-w", type: :string, desc: "Comma-separated seed string"
     option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
     option :"no-hashcode",  aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization"
     option :"key-items", aliases: "-k", type: :string, desc: "Items to be shuffled. (comma-separated)"
     option :"value-items", aliases: "-v", type: :string, desc: "Items to be shuffled. (comma-separated)"
+    option :"pretty", aliases: "-p", type: :string, desc: "Pretty print output."
     option :"config-output", aliases: "-o", type: :string, desc: ""
     def pair
       xipai(:pair)
