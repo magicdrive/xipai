@@ -7,11 +7,7 @@ module Xipai
 
     class << self
       def scrumble!(words, hashcode, items, opt = {})
-        seed = words.map {|item|
-          item.bytes.reduce(:*)
-        }.reduce(:+)
-
-        seed, hashcode = spinkle_hashcode_bytes(seed, opt)
+        seed, hashcode = spinkle_hashcode_bytes(generate_seed(words), hashcode, opt)
 
         random = Random.new(seed)
 
@@ -23,25 +19,24 @@ module Xipai
       end
 
       def normalize_items(items)
-        return items
-
+        return items.map {|item| item.strip}
       end
 
-      def generate_seed()
-
+      def generate_seed(words)
+       return seed = words.map {|item|
+          item.bytes.reduce(:*)
+        }.reduce(:+)
       end
 
-      def spinkle_hashcode_bytes(seed, opt = {})
-        hashcode = Xipai::Hashcode.new_or_existing(hashcode)
+      def spinkle_hashcode_bytes(seed, hashcode, opt = {})
+        _hashcode = Xipai::Hashcode.new_or_existing(hashcode)
         if opt[:no_hashcode] = true
-          hashcode = nil
+          _hashcode = nil
         end
-        seed += hashcode.bytes.reduce(:*)
+        seed += _hashcode.bytes.reduce(:*) unless _hashcode == nil
 
-
-        return seed hashcode
+        return seed _hashcode
       end
-
 
     end
 

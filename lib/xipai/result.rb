@@ -9,7 +9,9 @@ module Xipai
     class << self
 
       def generate(mode, *set)
+        return {
 
+        }
       end
 
       def dispatch(mode, *set)
