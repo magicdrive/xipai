@@ -7,6 +7,7 @@ module Xipai
     class Pair < Xipai::Arrangement::Base
 
       attributes :mode, :key_words, :hashcode, :no_hashcode, :key_items, :pretty, :value_items
+      require_attributes :mode, :key_items, :value_items
 
       def apply
         _hashcode, _shuffled_keys = Xipai::Core.scrumble!(
@@ -19,7 +20,7 @@ module Xipai
 
         result_set = pair(shuffled_keys, shuffled_values)
 
-        return Xipai::Result.generate(mode, _hashcode, result_set)
+        return Xipai::Result.generate(mode, _hashcode, result_set, params)
       end
 
       def pair(_keys, _values)

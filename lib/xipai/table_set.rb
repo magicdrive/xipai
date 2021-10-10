@@ -9,8 +9,8 @@ module Xipai
 
     class << self
 
-      def parse_yaml(yamlfile)
-        data = Hashie::Mash.new(YAML.load_file(yamlfile))
+      def parse_yaml(yamldata)
+        data = Hashie::Mash.new(YAML.load(yamldata))
         return arrange(data.mode, data)
       end
 

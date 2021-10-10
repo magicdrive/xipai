@@ -14,82 +14,58 @@ module Xipai
     end
 
     desc "replay", "Replay shuffling with xipai-replay yaml"
-    option :"yaml", aliases: "-c", type: :string, desc: "xipai replay config defined yaml file."
+    option :"replay_yaml",   aliases: "-c", type: :string, desc: "xipai replay config defined yaml file.", required: true
     option :"replay_output", aliases: "-o", type: :string, desc: "output xipai-replay yaml to specified path"
     def replay
-      xipai = Xipai::TableSet.parse_yaml(options[:yaml])
-      result = xipai.apply
-
-      puts result
-      xipai.dump_replay_yaml(options[:replay_output]) unless options[:replay_output].nil?
-
+      Xipai.replay!(File.read(options), options)
     end
 
-    desc "single", "reproducible based on seeds or random shuffling."
-    option :"key_words", aliases: "-w", type: :string, desc: "Comma-separated seed string"
-    option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
-    option :"no_hashcode",  aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
-    option :"items", aliases: "-a", type: :string, desc: "Items to be shuffled. (comma-separated)"
-    option :"pretty", aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
-    option :"replay_output", aliases: "-o", type: :string, desc: "output xeplay-replay yaml to specified path"
+    desc "single", "Reproducible based on seeds or random shuffling."
+    option :"key_words",     aliases: "-w", type: :string,  desc: "Comma-separated seed string"
+    option :"hashcode",      aliases: "-c", type: :string,  desc: "Hashcode to identify this randomization"
+    option :"no_hashcode",   aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization", default: false
+    option :"items",         aliases: "-a", type: :string,  desc: "Items to be shuffled. (comma-separated)", required: true
+    option :"pretty",        aliases: "-p", type: :boolean, desc: "Pretty print output.", default: false
+    option :"replay_output", aliases: "-o", type: :string,  desc: "output xeplay-replay yaml to specified path"
     def single()
-      xipai = Xipai::TableSet.parse_options(:single, options)
-      result = xipai.apply
-
-      puts result
-      xipai.dump_replay_yaml(options[:replay_output]) unless options[:replay_output].nil?
-
+      Xipai.lets_do_this!(:single, options)
     end
 
     desc "team", "Reproducible based on seeds or random shuffling, then create teams"
-    option :"members", aliases: "-m", type: :numeric, desc: "Number of team-members"
-    option :"key_words", aliases: "-w", type: :string, desc: "Comma-separated seed string"
-    option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
-    option :"no_hashcode",  aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
-    option :"items", aliases: "-a", type: :string, desc: "Items to be shuffled. (comma-separated)"
-    option :"pretty", aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
-    option :"replay_output", aliases: "-o", type: :string, desc: "output xeplay-replay yaml to specified path"
+    option :"number_of_members", aliases: "-m", type: :numeric, desc: "Number of team-members", required: true
+    option :"key_words",         aliases: "-w", type: :string,  desc: "Comma-separated seed string", required: true
+    option :"hashcode",          aliases: "-c", type: :string,  desc: "Hashcode to identify this randomization"
+    option :"no_hashcode",       aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization", default: false
+    option :"items",             aliases: "-a", type: :string,  desc: "Items to be shuffled. (comma-separated)", required: true
+    option :"pretty",            aliases: "-p", type: :boolean, desc: "Pretty print output.", default: false
+    option :"replay_output",     aliases: "-o", type: :string,  desc: "output xeplay-replay yaml to specified path"
     def team
-      xipai = Xipai::TableSet.parse_options(:team, options)
-      result = xipai.apply
-
-      puts result
-      xipai.dump_replay_yaml(options[:replay_output]) unless options[:replay_output].nil?
+      Xipai.lets_do_this!(:team, options)
     end
 
     desc "lottery", "Reproducible based on seeds or random shuffling, then extruct lottery winner."
-    option :"winners", aliases: "-m", type: :numeric, desc: "Number of winners"
-    option :"key_words", aliases: "-w", type: :string, desc: "Comma-separated seed string"
-    option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
-    option :"no_hashcode",  aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
-    option :"items", aliases: "-a", type: :string, desc: "Items to be shuffled. (comma-separated)"
-    option :"pretty", aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
-    option :"replay_output", aliases: "-o", type: :string, desc: "output xeplay-replay yaml to specified path"
+    option :"number_of_winners", aliases: "-m", type: :numeric, desc: "Number of winners", required: true
+    option :"key_words",         aliases: "-w", type: :string,  desc: "Comma-separated seed string"
+    option :"hashcode",          aliases: "-c", type: :string,  desc: "Hashcode to identify this randomization"
+    option :"no_hashcode",       aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization", default: false
+    option :"items",             aliases: "-a", type: :string,  desc: "Items to be shuffled. (comma-separated)", required: true
+    option :"pretty",            aliases: "-p", type: :boolean, desc: "Pretty print output.", default: false
+    option :"replay_output",     aliases: "-o", type: :string,  desc: "output xeplay-replay yaml to specified path"
     def lottery
-      xipai = Xipai::TableSet.parse_options(:lottery, options)
-      result = xipai.apply
-
-      puts result
-      xipai.dump_replay_yaml(options[:replay_output]) unless options[:replay_output].nil?
-
+      Xipai.lets_do_this!(:lottery, options)
     end
 
     desc "pair", "Reproducible based on seeds or random shuffling, then pairing key-items and value-items."
-    option :"key-words", aliases: "-w", type: :string, desc: "Comma-separated seed string"
-    option :"hashcode", aliases: "-c", type: :string, desc: "Hashcode to identify this randomization"
-    option :"no_hashcode",  aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
-    option :"key_items", aliases: "-k", type: :string, desc: "Items to be shuffled. (comma-separated)"
-    option :"value_items", aliases: "-v", type: :string, desc: "Items to be shuffled. (comma-separated)"
-    option :"pretty", aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
-    option :"replay_output", aliases: "-o", type: :string, desc: "output xeplay-replay yaml to specified path"
+    option :"key_words",     aliases: "-w", type: :string,  desc: "Comma-separated seed string"
+    option :"hashcode",      aliases: "-c", type: :string,  desc: "Hashcode to identify this randomization"
+    option :"no_hashcode",   aliases: "-n", type: :boolean, desc: "Do not use hashcode for randomization", default: false
+    option :"key_items",     aliases: "-k", type: :string,  desc: "Items to be shuffled. (comma-separated)", required: true
+    option :"value_items",   aliases: "-v", type: :string,  desc: "Items to be shuffled. (comma-separated)", required: true
+    option :"pretty",        aliases: "-p", type: :boolean, desc: "Pretty print output.", default: false
+    option :"replay_output", aliases: "-o", type: :string,  desc: "output xeplay-replay yaml to specified path"
     def pair
-      xipai = Xipai::TableSet.parse_options(:pair, options)
-      result = xipai.apply
-
-      puts result
-      xipai.dump_replay_yaml(options[:replay_output]) unless options[:replay_output].nil?
+      Xipai.lets_do_this!(:pair, options)
     end
-
 
   end
 end

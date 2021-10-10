@@ -8,6 +8,7 @@ module Xipai
     class Base
 
       attr_reader :params
+
       class << self
         def attributes(*attrs)
           define_method(:"__attributes__") {attrs}

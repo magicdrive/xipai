@@ -6,6 +6,16 @@ module Xipai
   module Core
 
     class << self
+
+      def start!(_mode, _options)
+        xipai = Xipai::TableSet.parse_options(_mode, _options)
+        result = xipai.apply
+
+        puts result
+        xipai.dump_replay_yaml(_options[:replay_output]) unless _options[:replay_output].nil?
+      end
+
+
       def scrumble!(words, hashcode, items, opt = {})
         seed, hashcode = spinkle_hashcode_bytes(generate_seed(words), hashcode, opt)
 
@@ -18,14 +28,22 @@ module Xipai
         }
       end
 
-      private
+      def replay!(yamldata, _options)
+        xipai = Xipai::TableSet.parse_yaml(options[:yaml])
+        result = xipai.apply
 
+        puts result
+        xipai.dump_replay_yaml(_options[:replay_output]) unless _options[:replay_output].nil?
+      end
+
+
+      private
       def normalize_items(items)
         return items.map {|item| item.strip}
       end
 
       def generate_seed(words)
-       return seed = words.map {|item|
+        return seed = words.map {|item|
           item.bytes.reduce(:*)
         }.reduce(:+)
       end
