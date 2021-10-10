@@ -14,9 +14,11 @@ module Xipai
         shuffled = normalize_items(items).shuffle!(random: random)
         return {
           hashcode: hashcode,
-          order: shuffled
+          shuffled: shuffled
         }
       end
+
+      private
 
       def normalize_items(items)
         return items.map {|item| item.strip}

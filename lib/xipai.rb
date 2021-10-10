@@ -4,5 +4,4 @@ Dir.glob(File.expand_path("xipai/**/*.rb", File.dirname(__FILE__))).each do |mod
   require_relative "#{mod_name}"
 end
 
-__END__
 

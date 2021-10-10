@@ -6,11 +6,12 @@ require "securerandom"
 
 
 module Xipai
-  module Hashcode
+  module HashcodeGenerator
     class << self
 
       def random_hashcode()
-        digit_seed = "#{self.name.object_id}-#{$$}-#{Time.now.to_i}-#{SecureRandom.hex(16)}-#{SecureRandom.hex(16)}}"
+        digit_seed =
+          "#{self.name.object_id}-#{$$}-#{Time.now.to_i}-#{SecureRandom.hex(16)}-#{SecureRandom.hex(16)}}"
         _hashcode_ = Digest::SHA256.hexdigest(digit_seed)[0 .. 16]
         return _hashcode_
       end
