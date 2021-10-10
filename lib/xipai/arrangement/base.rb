@@ -55,9 +55,10 @@ module Xipai
         before, result = method_missing_hook(method, *args)
         if before
           return result
-        else
-          return params[:"#{method}"] if params.has_key?(:"#{method}")
+        elsif params.has_key?(:"#{method}")
+          return params[:"#{method}"]
         end
+        super
       end
 
       def method_missing_hook(method, *args)

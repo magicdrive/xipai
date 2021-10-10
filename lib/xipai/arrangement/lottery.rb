@@ -15,13 +15,13 @@ module Xipai
         ).tap {|me| break *[me[:hashcode], me[:shuffled]]}
         _result_set = lottery(_shuffled, number_of_winners)
 
-        return Xipai::Result.generate(mode, _hashcode, result_set, params)
+        return Xipai::Result.generate(mode, _hashcode, _result_set, params)
       end
 
       def lottery(_items, _number_of_winners)
-        return Some[_number_of_members].match do |m|
+        return Some[_number_of_winners].match do |m|
           m.some(->(x){x == 1}) {[_items[0]]}
-          m.some(->(x){x > 0}) {_items[0..x]}
+          m.some(->(x){x > 0}) {|x|_items[0..(x-1)]}
           m.some() {raise "error: number_of_winners"}
         end
       end

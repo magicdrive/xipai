@@ -11,14 +11,14 @@ module Xipai
 
       def apply
         _hashcode, _shuffled_keys = Xipai::Core.scrumble!(
-          key_words, hashcode, items, {}
+          key_words, hashcode, key_items, {}
         ).tap {|me| break *[me[:hashcode], me[:shuffled]]}
 
         _hashcode, _shuffled_values = Xipai::Core.scrumble!(
-          key_words, _hashcode, items, {}
+          key_words, _hashcode, value_items, {}
         ).tap {|me| break *[me[:hashcode], me[:shuffled]]}
 
-        result_set = pair(shuffled_keys, shuffled_values)
+        result_set = pair(_shuffled_keys, _shuffled_values)
 
         return Xipai::Result.generate(mode, _hashcode, result_set, params)
       end
