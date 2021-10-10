@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'thor', '>= 1.0'
   spec.add_runtime_dependency 'optional', '>= 0.0.7'
   spec.add_runtime_dependency 'hashie', '>= 2.0'
-  spec.add_runtime_dependency 'pry', '>= 0.0.0'
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
