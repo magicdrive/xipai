@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+
+require "optional"
+
 module Xipai
   module Arrangement
     class Pair < Xipai::Arrangement::Base

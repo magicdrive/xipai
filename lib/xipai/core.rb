@@ -31,13 +31,13 @@ module Xipai
       end
 
       def spinkle_hashcode_bytes(seed, hashcode, opt = {})
-        _hashcode = Xipai::Hashcode.new_or_existing(hashcode)
-        if opt[:no_hashcode] = true
+        _hashcode = Xipai::HashcodeGenerator.generate_or_existing(hashcode)
+        if [true, "true", 1, "no_hashcode"].include?(opt[:no_hashcode])
           _hashcode = nil
         end
         seed += _hashcode.bytes.reduce(:*) unless _hashcode == nil
 
-        return seed _hashcode
+        return seed, _hashcode
       end
 
     end

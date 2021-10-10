@@ -3,6 +3,7 @@
 require File.expand_path("../xipai", File.dirname(__FILE__))
 require "json"
 require "time"
+require "optional"
 
 module Xipai
   module Result
@@ -16,12 +17,12 @@ module Xipai
             hashcode: _hashcode,
             result: _set,
             options: _options
-        })
+        }, _options)
       end
 
       def data_json_string(_set, _options)
         return Some[_options[:pretty]].match do |m|
-          m.some(->(x){["true" , true,  1].include?(x)}) { JSON.pretty_generate(_set)}
+          m.some(->(x){["true" , true,  1, "pretty"].include?(x)}) { JSON.pretty_generate(_set)}
           m.some(->(x){["false", false, 0, nil].include?(x)}) {JSON.generate(_set)}
           m.some {raise "pretty option value is invalid."}
         end

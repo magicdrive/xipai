@@ -5,3 +5,4 @@ Dir.glob(File.expand_path("xipai/**/*.rb", File.dirname(__FILE__))).each do |mod
 end
 
 
+require "pry"

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "optional"
+
 module Xipai
   module Arrangement
     class Lottery < Xipai::Arrangement::Base
