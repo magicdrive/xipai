@@ -86,7 +86,7 @@ Options:
 Reproducible based on seeds or random shuffling, then pairing key-items and value-items.
 ```
 
-```bash
+```
 $ xipai help team
 Usage:
   xipai team -A, --items=ITEMS -m, --number-of-members=N
