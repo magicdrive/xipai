@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-```bash
+```
 $ xipai help
 Commands:
   xipai help [COMMAND]                                                # Describe available commands or one specific command
@@ -32,7 +32,7 @@ Commands:
   xipai version                                                       # Show xipai version
 ```
 
-```bash
+```
 $ xipai help order
 Usage:
   xipai order -A, --items=ITEMS
@@ -49,7 +49,7 @@ Options:
 Reproducible based on seeds or random shuffling, then ordered
 ```
 
-```bash
+```
 $ xipai help lottery
 Usage:
   xipai lottery -A, --items=ITEMS -m, --number-of-winners=N
@@ -65,14 +65,10 @@ Options:
   -v, [--verbose], [--no-verbose]                    # Verbose mode Output
 
 Reproducible based on seeds or random shuffling, then extruct lottery winner.
-
-
-
-
 ```
 
 
-```bash
+```
 $ xipai help pair
 Usage:
   xipai pair -K, --key-items=KEY_ITEMS -V, --value-items=VALUE_ITEMS
@@ -91,7 +87,7 @@ Reproducible based on seeds or random shuffling, then pairing key-items and valu
 ```
 
 ```bash
-% xipai help team
+$ xipai help team
 Usage:
   xipai team -A, --items=ITEMS -m, --number-of-members=N
 
