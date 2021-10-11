@@ -1,4 +1,4 @@
-# [WIP] Xipai
+# Xipai
 
 Reproducible based on seeds or random shuffling tool.
 
