@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require File.expand_path("../xipai", File.dirname(__FILE__))
 require "yaml"
 require "optional"
 require "hashie"
@@ -29,6 +30,8 @@ module Xipai
             params[:pretty]            = attrs.pretty
             params[:items]             = normalize_csv_array(attrs.items)
             params[:number_of_members] = attrs.number_of_members
+            params[:verbose]           = attrs.verbose
+            params[:replay_output]     = attrs.replay_output
           }
           m.some(->(x){x == :lottery}) {
             params[:mode]              = mode.intern
@@ -38,6 +41,8 @@ module Xipai
             params[:pretty]            = attrs.pretty
             params[:items]             = normalize_csv_array(attrs.items)
             params[:number_of_winners] = attrs.number_of_winners
+            params[:verbose]           = attrs.verbose
+            params[:replay_output]     = attrs.replay_output
           }
           m.some(->(x){x == :pair}) {
             params[:mode]              = mode.intern
@@ -47,6 +52,8 @@ module Xipai
             params[:key_items]         = normalize_csv_array(attrs.key_items)
             params[:pretty]            = attrs.pretty
             params[:value_items]       = normalize_csv_array(attrs.value_items)
+            params[:verbose]           = attrs.verbose
+            params[:replay_output]     = attrs.replay_output
           }
           m.some(->(x){x == :single}) {
             params[:mode]              = mode.intern
@@ -55,6 +62,8 @@ module Xipai
             params[:no_hashcode]       = attrs.no_hashcode
             params[:pretty]            = attrs.pretty
             params[:items]             = normalize_csv_array(attrs.items)
+            params[:verbose]           = attrs.verbose
+            params[:replay_output]     = attrs.replay_output
           }
           m.some {raise "error: mode invalid."}
         end
@@ -66,11 +75,14 @@ module Xipai
 
       def normalize_csv_array(obj)
         return Some[obj].match do |m|
-          m.some(->(x){x.is_a?(String)}) { obj.split(",").map(&:strip) }
+          m.some(->(x){x.is_a?(String)}) {
+            obj == "" ? [] : obj.split(",").map(&:strip)
+          }
           m.some(->(x){x.is_a?(Array)})  { obj }
           m.some { "Error: normalize_csv_array invalid value(s)."}
         end
       end
+
     end
   end
 end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require File.expand_path("../../xipai", File.dirname(__FILE__))
 require "optional"
 
 module Xipai
@@ -20,7 +21,7 @@ module Xipai
 
         result_set = pair(_shuffled_keys, _shuffled_values)
 
-        return Xipai::Result.generate(mode, _hashcode, result_set, params)
+        return Xipai::Result.new(mode, _hashcode, result_set, params)
       end
 
       def pair(_keys, _values)

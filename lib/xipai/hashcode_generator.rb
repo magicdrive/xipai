@@ -17,7 +17,7 @@ module Xipai
       end
 
       def generate_or_existing(hashcode)
-        return random_hashcode if hashcode.nil?
+        return random_hashcode if ["", nil].include?(hashcode)
         return hashcode
       end
     end

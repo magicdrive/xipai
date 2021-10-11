@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require File.expand_path("../../xipai", File.dirname(__FILE__))
+
 module Xipai
   module Arrangement
     class Team < Xipai::Arrangement::Base
@@ -12,10 +14,9 @@ module Xipai
         ).tap {|me| break *[me[:hashcode], me[:shuffled]]}
         result_set = team(_shuffled, number_of_members)
 
-        return Xipai::Result.generate(mode, _hashcode, result_set, params)
-
-
+        return Xipai::Result.new(mode, _hashcode, result_set, params)
       end
+
       def team(_items, _number_of_members)
         return _items.each_slice(_number_of_members).to_a
       end

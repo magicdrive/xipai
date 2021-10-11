@@ -6,28 +6,76 @@ require "time"
 require "optional"
 
 module Xipai
-  module Result
+  class Result
 
-    class << self
+    attr_accessor :timestamp, :mode, :hashcode, :result, :options
 
-      def generate(_mode, _hashcode, _set, _options)
-        return data_json_string({
-          timestamp: Time.now.strftime("%G-W%V-%uT%R%:z"),
-          mode: _mode,
-            hashcode: _hashcode,
-            result: _set,
-            options: _options
-        }, _options)
-      end
-
-      def data_json_string(_set, _options)
-        return Some[_options[:pretty]].match do |m|
-          m.some(->(x){["true" , true,  1, "pretty"].include?(x)}) { JSON.pretty_generate(_set)}
-          m.some(->(x){["false", false, 0, nil].include?(x)}) {JSON.generate(_set)}
-          m.some {raise "pretty option value is invalid."}
-        end
-      end
-
+    def initialize(_mode, _hashcode, _set, _options)
+      @timestamp = Time.now
+      @mode      = _mode
+      @hashcode  = _hashcode
+      @result    = _set
+      @options   = _options
     end
+
+    def data_json
+      return Some[options[:verbose]].match do |m|
+        m.some(->(x){["true" , true,  1, "verbose"].include?(x)}) {
+          data_json_string( {
+            timestamp: timestamp,
+            mode:      mode,
+            hashcode:  hashcode,
+            result:    result,
+            options:   options
+          })
+        }
+        m.some(->(x){["false", false, 0, nil, ""].include?(x) }) {
+          data_json_string( {
+            mode:      mode,
+            hashcode:  hashcode,
+            result:    result,
+          })
+        }
+        m.some {raise "Error: verbose mode option value is invalid"}
+      end
+    end
+
+    def replay_data
+      return hash_deep_stringize(options.dup.tap {|me| me.delete(:replay_output)})
+    end
+
+    def replay_output_path
+      return nil if [nil, ""].include?(options[:replay_output])
+      basename = File.basename(options[:replay_output]).tap {|me|
+        break me += ".xipai-replay.yaml" if me !~ /\A(?:.*\.(?:yaml|yml))\z/xo
+      }
+      return "#{File.dirname(options[:replay_output])}/#{basename}"
+    end
+
+    def replay_output?
+      return ![nil, ""].include?(options[:replay_output])
+    end
+
+    private
+    def data_json_string(hash)
+      return Some[options[:pretty]].match do |m|
+        m.some(->(x){["true" , true,  1, "pretty"].include?(x)}) { JSON.pretty_generate(hash) }
+        m.some(->(x){["false", false, 0, nil, ""].include?(x)})  { JSON.generate(hash) }
+        m.some { raise "Error: pretty option value is invalid." }
+      end
+    end
+
+    def hash_deep_stringize(obj)
+      return Some[obj].match do |m|
+        m.some(->(x){x.is_a?(Hash)}) {
+          obj.inject({}){|memo,(k,v)| memo[k.to_s] = hash_deep_stringize(v); memo}
+        }
+        m.some(->(x){x.is_a?(Array)}) {
+          obj.inject([]){|memo,v| memo << hash_deep_stringize(v); memo}
+        }
+        m.some {obj}
+      end
+    end
+
   end
 end

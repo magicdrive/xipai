@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require File.expand_path("../../xipai", File.dirname(__FILE__))
 require "yaml"
 require "optional"
 
@@ -14,6 +15,7 @@ module Xipai
           define_method(:"__attributes__") {attrs}
           private :"__attributes__"
         end
+
         def require_attributes(*attrs)
           define_method(:"__require_attributes__") {attrs}
           private :"__require_attributes__"
@@ -74,12 +76,12 @@ module Xipai
         return _data
       end
 
-
       def dump_replay_yaml(path)
         raise "error: replay_yaml path is nil." if path.nil?
         FileUtils.mkdir_p(File.dirname(path))
         YAML.dump(self.to_replay_data, File.open(path, "w"))
       end
+
     end
   end
 end

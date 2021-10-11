@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require File.expand_path("../../xipai", File.dirname(__FILE__))
 require "optional"
 
 module Xipai
@@ -15,7 +16,7 @@ module Xipai
         ).tap {|me| break *[me[:hashcode], me[:shuffled]]}
         _result_set = lottery(_shuffled, number_of_winners)
 
-        return Xipai::Result.generate(mode, _hashcode, _result_set, params)
+        return Xipai::Result.new(mode, _hashcode, _result_set, params)
       end
 
       def lottery(_items, _number_of_winners)
