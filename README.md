@@ -27,7 +27,7 @@ Commands:
   xipai lottery -A, --items=ITEMS -m, --number-of-winners=N           # Reproducible based on seeds or random shuffling, then extruct lottery winner.
   xipai pair -K, --key-items=KEY_ITEMS -V, --value-items=VALUE_ITEMS  # Reproducible based on seeds or random shuffling, then pairing key-items and value-items.
   xipai replay -c, --replay-yaml=REPLAY_YAML                          # Replay shuffling with xipai-replay yaml
-  xipai order -A, --items=ITEMS                                      # Reproducible based on seeds or random shuffling.
+  xipai order -A, --items=ITEMS                                       # Reproducible based on seeds or random shuffling.
   xipai team -A, --items=ITEMS -m, --number-of-members=N              # Reproducible based on seeds or random shuffling, then create teams
   xipai version                                                       # Show xipai version
 ```
