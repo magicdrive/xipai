@@ -1,8 +1,6 @@
 # [WIP] Xipai
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/xipai`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Reproducible based on seeds or random shuffling tool.
 
 ## Installation
 
@@ -22,7 +20,93 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+$ xipai help
+Commands:
+  xipai help [COMMAND]                                                # Describe available commands or one specific command
+  xipai lottery -A, --items=ITEMS -m, --number-of-winners=N           # Reproducible based on seeds or random shuffling, then extruct lottery winner.
+  xipai pair -K, --key-items=KEY_ITEMS -V, --value-items=VALUE_ITEMS  # Reproducible based on seeds or random shuffling, then pairing key-items and value-items.
+  xipai replay -c, --replay-yaml=REPLAY_YAML                          # Replay shuffling with xipai-replay yaml
+  xipai order -A, --items=ITEMS                                      # Reproducible based on seeds or random shuffling.
+  xipai team -A, --items=ITEMS -m, --number-of-members=N              # Reproducible based on seeds or random shuffling, then create teams
+  xipai version                                                       # Show xipai version
+```
+
+```bash
+$ xipai help order
+Usage:
+  xipai order -A, --items=ITEMS
+
+Options:
+  -w, [--key-words=KEY_WORDS]                        # Comma-separated seed string
+  -c, [--hashcode=HASHCODE]                          # Hashcode to identify this randomization
+  -n, [--without-hashcode], [--no-without-hashcode]  # Do not use hashcode for randomization
+  -A, --items=ITEMS                                  # Items to be shuffled. (comma-separated)
+  -p, [--pretty], [--no-pretty]                      # Pretty print output.
+  -o, [--replay-output=REPLAY_OUTPUT]                # Output xeplay-replay yaml to specified path
+  -v, [--verbose], [--no-verbose]                    # Verbose mode Output
+
+Reproducible based on seeds or random shuffling, then ordered
+```
+
+```bash
+$ xipai help lottery
+Usage:
+  xipai lottery -A, --items=ITEMS -m, --number-of-winners=N
+
+Options:
+  -m, --number-of-winners=N                          # Number of winners
+  -w, [--key-words=KEY_WORDS]                        # Comma-separated seed string
+  -c, [--hashcode=HASHCODE]                          # Hashcode to identify this randomization
+  -n, [--without-hashcode], [--no-without-hashcode]  # Do not use hashcode for randomization
+  -A, --items=ITEMS                                  # Items to be shuffled. (comma-separated)
+  -p, [--pretty], [--no-pretty]                      # Pretty print output.
+  -o, [--replay-output=REPLAY_OUTPUT]                # Output xeplay-replay yaml to specified path
+  -v, [--verbose], [--no-verbose]                    # Verbose mode Output
+
+Reproducible based on seeds or random shuffling, then extruct lottery winner.
+
+
+
+
+```
+
+
+```bash
+$ xipai help pair
+Usage:
+  xipai pair -K, --key-items=KEY_ITEMS -V, --value-items=VALUE_ITEMS
+
+Options:
+  -w, [--key-words=KEY_WORDS]                        # Comma-separated seed string
+  -c, [--hashcode=HASHCODE]                          # Hashcode to identify this randomization
+  -n, [--without-hashcode], [--no-without-hashcode]  # Do not use hashcode for randomization
+  -K, --key-items=KEY_ITEMS                          # Items to be shuffled. (comma-separated)
+  -V, --value-items=VALUE_ITEMS                      # Items to be shuffled. (comma-separated)
+  -p, [--pretty], [--no-pretty]                      # Pretty print output.
+  -o, [--replay-output=REPLAY_OUTPUT]                # Output xeplay-replay yaml to specified path
+  -v, [--verbose], [--no-verbose]                    # Verbose mode Output
+
+Reproducible based on seeds or random shuffling, then pairing key-items and value-items.
+```
+
+```bash
+% xipai help team
+Usage:
+  xipai team -A, --items=ITEMS -m, --number-of-members=N
+
+Options:
+  -m, --number-of-members=N                          # Number of team-members
+  -w, [--key-words=KEY_WORDS]                        # Comma-separated seed string
+  -c, [--hashcode=HASHCODE]                          # Hashcode to identify this randomization
+  -n, [--without-hashcode], [--no-without-hashcode]  # Do not use hashcode for randomization
+  -A, --items=ITEMS                                  # Items to be shuffled. (comma-separated)
+  -p, [--pretty], [--no-pretty]                      # Pretty print output.
+  -o, [--replay-output=REPLAY_OUTPUT]                # Output xeplay-replay yaml to specified path
+  -v, [--verbose], [--no-verbose]                    # Verbose mode Output
+
+Reproducible based on seeds or random shuffling, then create teams
+```
 
 ## Development
 
@@ -32,7 +116,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/xipai. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/xipai/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/magicdrive/xipai. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/magicdrive/xipai/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -40,4 +124,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Xipai project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/xipai/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the Xipai project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/magicdrive/xipai/blob/main/CODE_OF_CONDUCT.md).
