@@ -7,12 +7,12 @@ module Xipai
   module Arrangement
     class Lottery < Xipai::Arrangement::Base
 
-      attributes :mode, :key_words, :hashcode, :no_hashcode, :pretty, :items, :number_of_winners
+      attributes :mode, :key_words, :hashcode, :without_hashcode, :pretty, :items, :number_of_winners
       require_attributes :mode, :items, :number_of_winners
 
       def apply
         _hashcode, _shuffled = Xipai::Core.scrumble!(
-          key_words, hashcode, items, {}
+          key_words, hashcode, items, params
         ).tap {|me| break *[me[:hashcode], me[:shuffled]]}
         _result_set = lottery(_shuffled, number_of_winners)
 

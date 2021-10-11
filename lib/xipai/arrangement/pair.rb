@@ -7,12 +7,12 @@ module Xipai
   module Arrangement
     class Pair < Xipai::Arrangement::Base
 
-      attributes :mode, :key_words, :hashcode, :no_hashcode, :key_items, :pretty, :value_items
+      attributes :mode, :key_words, :hashcode, :without_hashcode, :key_items, :pretty, :value_items
       require_attributes :mode, :key_items, :value_items
 
       def apply
         _hashcode, _shuffled_keys = Xipai::Core.scrumble!(
-          key_words, hashcode, key_items, {}
+          key_words, hashcode, key_items, params
         ).tap {|me| break *[me[:hashcode], me[:shuffled]]}
 
         _hashcode, _shuffled_values = Xipai::Core.scrumble!(

@@ -37,20 +37,8 @@ module Xipai
         return true
       end
 
-      def initialize(params)
-        @params = hash_deep_symbolize(params)
-      end
-
-      def hash_deep_symbolize(obj)
-        return Some[obj].match do |m|
-          m.some(->(x){x.is_a?(Hash)}) {
-            obj.inject({}){|memo,(k,v)| memo[k.to_s.intern] =  hash_deep_symbolize(v); memo}
-          }
-          m.some(->(x){x.is_a?(Array)}) {
-            obj.inject([]){|memo,v| memo << hash_deep_symbolize(v); memo}
-          }
-          m.some {obj}
-        end
+      def initialize(_params)
+        @params = _params
       end
 
       def method_missing(method, *args)
@@ -68,16 +56,13 @@ module Xipai
       end
 
       def to_replay_data
-        _data = { }
-        _params = params
-        __attributes__.each do |attribute_name|
-          data[attribute_name] = params[attribute_name]
+        return __attributes__.inject({}) do |memo, attribute_name|
+          memo[attribute_name] = params[attribute_name]
         end
-        return _data
       end
 
       def dump_replay_yaml(path)
-        raise "error: replay_yaml path is nil." if path.nil?
+        raise "Error: replay_yaml path is nil." if path.nil?
         FileUtils.mkdir_p(File.dirname(path))
         YAML.dump(self.to_replay_data, File.open(path, "w"))
       end

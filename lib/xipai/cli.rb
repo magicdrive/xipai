@@ -17,27 +17,30 @@ module Xipai
     desc "replay", "Replay shuffling with xipai-replay yaml"
     option :"replay_yaml",   aliases: "-c", type: :string, required: true, desc: "Xipai replay config defined yaml file."
     option :"replay_output", aliases: "-o", type: :string, default: "",    desc: "Output xipai-replay yaml to specified path"
+    option :"verbose",       aliases: "-v", type: :boolean, default: false, desc: "Verbose mode Output (Show yamldata string)"
     def replay()
-      finalize Xipai.replay!(File.read(options[:"replay_yaml"]), options)
+      yamldata = File.read(options[:"replay_yaml"])
+      $stdout.puts yamldata if options[:verbose]
+      finalize Xipai.replay!(yamldata, options)
     end
 
-    desc "single", "Reproducible based on seeds or random shuffling."
-    option :"key_words",     aliases: "-w", type: :string,  default: "",    desc: "Comma-separated seed string"
-    option :"hashcode",      aliases: "-c", type: :string,  default: "",    desc: "Hashcode to identify this randomization"
-    option :"no_hashcode",   aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
-    option :"items",         aliases: "-A", type: :string,  required: true, desc: "Items to be shuffled. (comma-separated)"
-    option :"pretty",        aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
-    option :"replay_output", aliases: "-o", type: :string,  default: "",    desc: "Output xeplay-replay yaml to specified path"
-    option :"verbose",       aliases: "-v", type: :boolean, default: false, desc: "Verbose mode Output"
-    def single()
-      finalize Xipai.lets_do_this!(:single, options)
+    desc "order", "Reproducible based on seeds or random shuffling, then ordered"
+    option :"key_words",        aliases: "-w", type: :string,  default: "",    desc: "Comma-separated seed string"
+    option :"hashcode",         aliases: "-c", type: :string,  default: "",    desc: "Hashcode to identify this randomization"
+    option :"without_hashcode", aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
+    option :"items",            aliases: "-A", type: :string,  required: true, desc: "Items to be shuffled. (comma-separated)"
+    option :"pretty",           aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
+    option :"replay_output",    aliases: "-o", type: :string,  default: "",    desc: "Output xeplay-replay yaml to specified path"
+    option :"verbose",          aliases: "-v", type: :boolean, default: false, desc: "Verbose mode Output"
+    def order()
+      finalize Xipai.lets_do_this!(:order, options)
     end
 
     desc "team", "Reproducible based on seeds or random shuffling, then create teams"
     option :"number_of_members", aliases: "-m", type: :numeric, required: true, desc: "Number of team-members"
     option :"key_words",         aliases: "-w", type: :string,  default: "",    desc: "Comma-separated seed string"
     option :"hashcode",          aliases: "-c", type: :string,  default: "",    desc: "Hashcode to identify this randomization"
-    option :"no_hashcode",       aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
+    option :"without_hashcode",  aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
     option :"items",             aliases: "-A", type: :string,  required: true, desc: "Items to be shuffled. (comma-separated)"
     option :"pretty",            aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
     option :"replay_output",     aliases: "-o", type: :string,  default: "",    desc: "Output xeplay-replay yaml to specified path"
@@ -50,7 +53,7 @@ module Xipai
     option :"number_of_winners", aliases: "-m", type: :numeric, required: true, desc: "Number of winners"
     option :"key_words",         aliases: "-w", type: :string,  default: "",    desc: "Comma-separated seed string"
     option :"hashcode",          aliases: "-c", type: :string,  default: "",    desc: "Hashcode to identify this randomization"
-    option :"no_hashcode",       aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
+    option :"without_hashcode",  aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
     option :"items",             aliases: "-A", type: :string,  required: true, desc: "Items to be shuffled. (comma-separated)"
     option :"pretty",            aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
     option :"replay_output",     aliases: "-o", type: :string,  default: "",    desc: "Output xeplay-replay yaml to specified path"
@@ -60,14 +63,14 @@ module Xipai
     end
 
     desc "pair", "Reproducible based on seeds or random shuffling, then pairing key-items and value-items."
-    option :"key_words",     aliases: "-w", type: :string,  default: "",    desc: "Comma-separated seed string"
-    option :"hashcode",      aliases: "-c", type: :string,  default: "",    desc: "Hashcode to identify this randomization"
-    option :"no_hashcode",   aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
-    option :"key_items",     aliases: "-K", type: :string,  required: true, desc: "Items to be shuffled. (comma-separated)"
-    option :"value_items",   aliases: "-V", type: :string,  required: true, desc: "Items to be shuffled. (comma-separated)"
-    option :"pretty",        aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
-    option :"replay_output", aliases: "-o", type: :string,  default: "",    desc: "Output xeplay-replay yaml to specified path"
-    option :"verbose",       aliases: "-v", type: :boolean, default: false, desc: "Verbose mode Output"
+    option :"key_words",        aliases: "-w", type: :string,  default: "",    desc: "Comma-separated seed string"
+    option :"hashcode",         aliases: "-c", type: :string,  default: "",    desc: "Hashcode to identify this randomization"
+    option :"without_hashcode", aliases: "-n", type: :boolean, default: false, desc: "Do not use hashcode for randomization"
+    option :"key_items",        aliases: "-K", type: :string,  required: true, desc: "Items to be shuffled. (comma-separated)"
+    option :"value_items",      aliases: "-V", type: :string,  required: true, desc: "Items to be shuffled. (comma-separated)"
+    option :"pretty",           aliases: "-p", type: :boolean, default: false, desc: "Pretty print output."
+    option :"replay_output",    aliases: "-o", type: :string,  default: "",    desc: "Output xeplay-replay yaml to specified path"
+    option :"verbose",          aliases: "-v", type: :boolean, default: false, desc: "Verbose mode Output"
     def pair()
       finalize Xipai.lets_do_this!(:pair, options)
     end

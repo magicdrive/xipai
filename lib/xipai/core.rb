@@ -10,7 +10,7 @@ module Xipai
       def scrumble!(words, hashcode, items, opt = {})
         seed, hashcode = spinkle_hashcode_bytes(generate_seed(words), hashcode, opt)
 
-        random = Random.new(seed)
+        random = seed == 0 ? Random.new : Random.new(seed)
 
         shuffled = normalize_items(items).shuffle!(random: random)
         return {
@@ -32,9 +32,9 @@ module Xipai
 
       def spinkle_hashcode_bytes(seed, hashcode, opt = {})
         _hashcode = Xipai::HashcodeGenerator.generate_or_existing(hashcode)
-        _hashcode = nil if [true, "true", 1, "no_hashcode"].include?(opt[:no_hashcode])
+        _hashcode = nil if [true, "true", 1, "without_hashcode"].include?(opt[:without_hashcode])
 
-        seed = seed.to_i if seed.nil?
+        seed = 0 if seed.nil?
         seed += _hashcode.bytes.reduce(:*) unless [nil, ""].include?(_hashcode)
 
         return seed, _hashcode

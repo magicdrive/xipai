@@ -19,29 +19,46 @@ module Xipai
     end
 
     def data_json
-      return Some[options[:verbose]].match do |m|
-        m.some(->(x){["true" , true,  1, "verbose"].include?(x)}) {
-          data_json_string( {
+      data = Some[options].match do |m|
+        m.some(->(x){["true" , true,  1, "verbose"].include?(x[:verbose])}) {
+          {
             timestamp: timestamp,
             mode:      mode,
             hashcode:  hashcode,
             result:    result,
             options:   options
-          })
+          }
         }
-        m.some(->(x){["false", false, 0, nil, ""].include?(x) }) {
-          data_json_string( {
+        m.some(->(x){["false", false, 0, nil, ""].include?(x[:verbose]) }) {
+          {
             mode:      mode,
             hashcode:  hashcode,
             result:    result,
-          })
+          }
         }
-        m.some {raise "Error: verbose mode option value is invalid"}
+        m.some {raise "Error: verbose mode option value is invalid."}
       end
+
+
+      data = Some[options].match do |m|
+        m.some(->(x){["true", true, 1, "without_hashcode"].include?(x[:without_hashcode]) }) {
+          data.delete(:hashcode)
+          data
+        }
+        m.some(->(x){["false", false, 0, "", nil].include?(x[:without_hashcode]) }) {
+          data
+        }
+        m.some {raise "Error: without_hashcode option value is invalid."}
+      end
+
+      return data_json_string(data)
     end
 
     def replay_data
-      return hash_deep_stringize(options.dup.tap {|me| me.delete(:replay_output)})
+      return hash_deep_stringize(options.dup.tap {|me|
+        me.delete(:replay_output)
+        me[:mode] = me[:mode].to_s
+      })
     end
 
     def replay_output_path

@@ -5,12 +5,12 @@ require File.expand_path("../../xipai", File.dirname(__FILE__))
 module Xipai
   module Arrangement
     class Team < Xipai::Arrangement::Base
-      attributes :mode, :key_words, :hashcode, :no_hashcode, :pretty, :items, :number_of_members
+      attributes :mode, :key_words, :hashcode, :without_hashcode, :pretty, :items, :number_of_members
       require_attributes :mode, :items, :number_of_members
 
       def apply
         _hashcode, _shuffled = Xipai::Core.scrumble!(
-          key_words, hashcode, items, {}
+          key_words, hashcode, items, params
         ).tap {|me| break *[me[:hashcode], me[:shuffled]]}
         result_set = team(_shuffled, number_of_members)
 
