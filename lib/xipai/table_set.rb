@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
-require File.expand_path("../xipai", File.dirname(__FILE__))
+Dir.glob(
+  "arrangement/*.rb", base: File.dirname(__FILE__)
+).each do |mode_name|
+  require "#{File.dirname(__FILE__)}/#{mode_name}"
+end
+
 require "yaml"
 require "optional"
 

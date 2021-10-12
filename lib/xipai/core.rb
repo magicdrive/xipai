@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-require File.expand_path("../xipai", File.dirname(__FILE__))
+require File.expand_path("../xipai/hashcode_generator", File.dirname(__FILE__))
 
 module Xipai
   module Core

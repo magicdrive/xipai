@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require File.expand_path("../xipai", File.dirname(__FILE__))
 require "json"
 require "time"
 require "optional"

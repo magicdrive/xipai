@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require File.expand_path("../../xipai", File.dirname(__FILE__))
+require File.expand_path("../../xipai/core", File.dirname(__FILE__))
+require File.expand_path("../../xipai/result", File.dirname(__FILE__))
+require File.expand_path("../../xipai/arrangement/base", File.dirname(__FILE__))
 
 module Xipai
   module Arrangement

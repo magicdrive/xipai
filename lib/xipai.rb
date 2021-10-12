@@ -3,10 +3,9 @@
 Dir.glob(
   File.expand_path("xipai/**/*.rb", File.dirname(__FILE__)
 )).each do |mod_name|
-  require_relative "#{mod_name}"
+  require "#{mod_name}"
 end
 
-require "ostruct"
 
 module Xipai
   class << self
