@@ -27,7 +27,7 @@ module Xipai
       end
 
       def pair(_keys, _values)
-        return Hash[Some[{a:_keys.size, b: _values.size}].match { |m|
+        return Hash[Some[{a: _keys.size, b: _values.size}].match { |m|
           m.some(->(x){x[:a] > x[:b]}) {
             result = [].tap {|me|
               _keys.each.with_index do |key, index|
@@ -49,9 +49,11 @@ module Xipai
             }
           }
           m.some(->(x){x[:a] == x[:b]}) { |x|
-            [*0..x[:a].to_i].map do |index|
-              result.push([_keys[index], _values[index]])
-            end
+            result = [].tap {|me|
+              [*0..(x[:a].to_i-1)].each do |index|
+                me.push([_keys[index], _values[index]])
+              end
+            }
           }
         }]
       end
