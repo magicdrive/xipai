@@ -11,8 +11,13 @@ module Xipai
         seed, hashcode = spinkle_hashcode_bytes(generate_seed(words), hashcode, opt)
 
         random = seed == 0 ? Random.new : Random.new(seed)
-
-        shuffled = normalize_items(items).shuffle!(random: random)
+        normalized_items = normalize_items(items)
+        shuffled =
+          normalized_items.shuffle!(
+            random: Random.new(JSON.generate(
+              normalized_items.shuffle!(random: random)
+            ).bytes.reduce(:+) + seed.to_i
+          ))
         return {
           hashcode: hashcode,
           shuffled: shuffled

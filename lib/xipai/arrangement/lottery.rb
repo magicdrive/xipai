@@ -4,6 +4,7 @@ require File.expand_path("../../xipai/core", File.dirname(__FILE__))
 require File.expand_path("../../xipai/result", File.dirname(__FILE__))
 require File.expand_path("../../xipai/arrangement/base", File.dirname(__FILE__))
 require "optional"
+require "json"
 
 module Xipai
   module Arrangement
@@ -23,9 +24,12 @@ module Xipai
 
       def lottery(_items, _number_of_winners)
         return Some[_number_of_winners].match do |m|
-          m.some(->(x){x == 1}) {[_items[0]]}
-          m.some(->(x){x > 0}) {|x|_items[0..(x-1)]}
-          m.some() {raise "error: number_of_winners"}
+          m.some(->(x){x > 0}) {|x|
+            _items.sample(x, random: Random.new(
+              JSON.generate(_items).bytes.reduce(:*)
+            ))
+          }
+          m.some() {raise "Error: number_of_winners"}
         end
       end
 
